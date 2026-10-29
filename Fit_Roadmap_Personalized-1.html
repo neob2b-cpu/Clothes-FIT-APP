@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fit Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef0f3;--card:#fff;--fg:#14171c;--mute:#5d6672;--line:#d9dce1;--tape:#ffd23f;--tapefg:#14171c;--ok:#15803d;--warn:#b45309;--bad:#b91c1c;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#101216;--card:#181b21;--fg:#eceef1;--mute:#98a1ad;--line:#2b303a;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#101216;--card:#181b21;--fg:#eceef1;--mute:#98a1ad;--line:#2b303a;--ok:#4ade80;--warn:#fbbf24;--bad:#f87171;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 "DM Sans",system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 18px 60px}
+h1,h2,h3{font-family:"Bricolage Grotesque","DM Sans",sans-serif;margin:0;letter-spacing:-.02em}
+h1{font-size:clamp(34px,6vw,56px);line-height:1.02;max-width:14ch}
+h2{font-size:24px;margin:44px 0 6px}
+h3{font-size:18px}
+.sub{color:var(--mute);max-width:56ch;margin:12px 0 0}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;margin-top:22px}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.lbl{font-size:13px;color:var(--mute);margin:18px 0 8px;font-weight:500}
+.lbl:first-child{margin-top:0}
+.seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{flex:1;border:0;background:none;color:var(--fg);padding:10px;font:inherit;cursor:pointer}
+.seg button[aria-pressed=true],.chip[aria-pressed=true]{background:var(--fg);color:var(--bg)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.big{font:500 44px/1 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.big small{font-size:16px;color:var(--mute);margin-left:4px;font-family:"DM Sans",sans-serif;letter-spacing:0}
+input[type=range]{width:100%;accent-color:var(--fg);margin:12px 0 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:none;color:var(--fg);border-radius:999px;padding:8px 14px;font:inherit;font-size:14px;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--tape);outline-offset:2px}
+.hint{font-size:13px;color:var(--mute);margin:8px 0 0}
+details{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+summary{cursor:pointer;font-weight:500;font-size:14px}
+input[type=number],input[type=text],select{width:100%;font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+.fig{display:flex;flex-direction:column;align-items:center}
+.fig svg{width:100%;max-width:300px;height:auto}
+.est{width:100%;margin-top:6px;border-top:1px solid var(--line)}
+.est div{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.est b{font-weight:500}
+.est span{color:var(--mute)}
+.fitrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+.fitopt{border:1px solid var(--line);background:var(--card);color:var(--fg);border-radius:12px;padding:14px;text-align:left;font:inherit;cursor:pointer}
+.fitopt[aria-pressed=true]{border-color:var(--fg);box-shadow:inset 0 -5px 0 var(--tape)}
+.fitopt b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:17px}
+.fitopt span{font-size:13px;color:var(--mute)}
+.per{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-top:14px}
+.per label{font-size:13px;color:var(--mute);display:block;margin-bottom:4px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:16px}
+.cards .card{padding:18px}
+.hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.tag{background:var(--tape);color:var(--tapefg);font-weight:700;border-radius:6px;padding:3px 10px;font-size:14px;white-space:nowrap}
+.fl{font-size:13px;color:var(--mute)}
+.m{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.m span{color:var(--mute)}
+.m b{font-weight:500;text-align:right}
+.note{font-size:13px;color:var(--mute);margin-top:10px}
+.v{margin-top:14px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);font-size:15px}
+.v.ok{border-color:var(--ok);color:var(--ok)}.v.warn{border-color:var(--warn);color:var(--warn)}.v.bad{border-color:var(--bad);color:var(--bad)}
+pre{white-space:pre-wrap;font:14px/1.55 "DM Sans",sans-serif;background:var(--bg);border-radius:10px;padding:14px;margin:0;max-height:340px;overflow:auto}
+.btn{margin-top:12px;border:0;background:var(--fg);color:var(--bg);border-radius:10px;padding:11px 18px;font:inherit;font-weight:500;cursor:pointer}
+a{color:var(--fg)}.m .ok{color:var(--ok)}.m .warn{color:var(--warn)}.m .bad{color:var(--bad)}.m b{max-width:64%}.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--mute);font-weight:500}.hl{background:color-mix(in srgb,var(--tape) 40%,transparent);font-weight:700}
+:root{--dot:rgba(20,23,28,.08)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--dot:rgba(255,255,255,.06)}}
+:root[data-theme="dark"]{--dot:rgba(255,255,255,.06)}
+body{background-image:radial-gradient(var(--dot) 1px,transparent 1px);background-size:20px 20px}
+.tape{height:48px;position:relative;overflow:hidden;background-color:var(--tape);background-image:repeating-linear-gradient(90deg,#14171c 0 1.5px,transparent 1.5px 16px),repeating-linear-gradient(90deg,#14171c 0 2px,transparent 2px 32px);background-size:100% 12px,100% 22px;background-repeat:repeat-x;animation:pull .9s cubic-bezier(.2,.7,.2,1)}
+.tape span{position:absolute;top:26px;font:700 11px/1 "DM Sans",sans-serif;color:#14171c}
+@keyframes pull{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@media (prefers-reduced-motion:reduce){.tape{animation:none}}
+@media print{.tape{display:none}}
+h1{font-size:clamp(40px,8vw,76px);font-weight:700;line-height:.98;max-width:12ch}
+h2::after{content:"";display:block;width:120px;height:8px;margin-top:8px;opacity:.5;background:repeating-linear-gradient(90deg,var(--fg) 0 1px,transparent 1px 8px)}
+.big,.m b,.tag,td{font-variant-numeric:tabular-nums}
+.seg button[aria-pressed=true],.chip[aria-pressed=true]{background:var(--tape);color:#14171c;font-weight:700}
+.fig{background-image:linear-gradient(color-mix(in srgb,var(--line) 70%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,var(--line) 70%,transparent) 1px,transparent 1px);background-size:24px 24px}
+.est{background:var(--card)}
+.cards .card{border-radius:4px;border-top:4px solid var(--fg)}
+.tag{padding:5px 20px 5px 12px;border-radius:0;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 50%,calc(100% - 12px) 100%,0 100%)}
+.gh{display:flex;align-items:center}
+.gh svg{width:22px;height:22px;margin-right:8px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linejoin:round;stroke-linecap:round}
+.v{border-width:0 0 0 6px;border-radius:4px;background:color-mix(in srgb,currentColor 8%,var(--card));padding:14px 16px}
+.v b{display:block;font:700 28px/1.1 "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;margin-bottom:4px}
+body{background-image:none}
+.tape{height:10px;animation:none;background-size:100% 6px,100% 10px}
+.tape span{display:none}
+h1{font-size:clamp(30px,6vw,46px);font-weight:600}
+h2{font-size:20px;margin:30px 0 4px}
+h2::after{display:none}
+.fig{background-image:none}
+.card{border:0;border-radius:12px}
+.cards{grid-template-columns:1fr;gap:8px}
+.cards .card{border-top:0;border-radius:12px;padding:14px 16px}
+.cards .card .hd{cursor:pointer;position:relative;padding-right:24px;align-items:center}
+.cards .card .hd::after{content:"+";position:absolute;right:0;top:50%;transform:translateY(-50%);color:var(--mute);font-size:20px}
+.cards .card.open .hd::after{content:"−"}
+.cards .gb{display:none}.cards .card.open .gb{display:block}
+.tag{background:transparent;color:var(--fg);border:1px solid var(--line);clip-path:none;border-radius:999px;padding:3px 12px;font-weight:500}
+.seg button[aria-pressed=true],.chip[aria-pressed=true]{background:var(--fg);color:var(--bg);font-weight:500}
+.v b{font-size:22px}
+.tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin-top:18px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);overflow-x:auto}
+.tabs button{background:none;border:0;padding:12px 0;font:inherit;color:var(--mute);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.tabs button[aria-pressed=true]{color:var(--fg);font-weight:600;border-bottom-color:var(--fg)}
+body[data-tab=me] .p-check,body[data-tab=me] .p-log,body[data-tab=check] .p-me,body[data-tab=check] .p-log,body[data-tab=log] .p-me,body[data-tab=log] .p-check{display:none}
+body[data-tab=check] #cin input{font-size:20px;padding:12px}
+.sec>summary{font:600 18px "Bricolage Grotesque",sans-serif;margin-top:30px}
+.shoponly{display:none}body.shop .shoponly{display:block}body.shop .noshop{display:none}body.shop #cin input{font-size:22px;padding:14px 12px}body.shop .v{font-size:19px}
+@media print{.noprint{display:none}}
+
+/* ===== Fit Roadmap visual refresh ===== */
+:root{
+  --bg:#f4f6fb;
+  --card:#ffffff;
+  --fg:#17213a;
+  --mute:#68738a;
+  --line:#e1e7f2;
+  --tape:#b8f36b;
+  --tapefg:#17213a;
+  --ok:#16856b;
+  --warn:#b86b12;
+  --bad:#d9475c;
+  --dot:rgba(50,75,130,.055);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#101728;--card:#182239;--fg:#f1f5ff;--mute:#a4b0c8;--line:#2a3854;
+    --tape:#b8f36b;--tapefg:#17213a;--ok:#55d6b0;--warn:#ffc66d;--bad:#ff7e91;--dot:rgba(255,255,255,.045);color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{--bg:#101728;--card:#182239;--fg:#f1f5ff;--mute:#a4b0c8;--line:#2a3854;--tape:#b8f36b;--tapefg:#17213a;--ok:#55d6b0;--warn:#ffc66d;--bad:#ff7e91;--dot:rgba(255,255,255,.045);color-scheme:dark}
+body{background:var(--bg);background-image:radial-gradient(var(--dot) 1px,transparent 1px);background-size:22px 22px;letter-spacing:-.01em}
+.wrap{max-width:1120px;padding:30px 20px 72px}
+header{position:relative;padding:30px 30px 22px;border:1px solid var(--line);border-radius:28px;background:linear-gradient(125deg,var(--card) 0%,var(--card) 64%,color-mix(in srgb,#7b8cff 12%,var(--card)) 100%);box-shadow:0 14px 45px rgba(34,55,100,.06);overflow:hidden}
+header:before{content:"";position:absolute;width:210px;height:210px;right:-60px;top:-95px;border-radius:50%;background:linear-gradient(135deg,#c9f79c,#a9b8ff);opacity:.32;pointer-events:none}
+h1{font-size:clamp(36px,7vw,62px);font-weight:700;line-height:.99;max-width:11ch;position:relative}
+.sub{font-size:15px;line-height:1.7;max-width:62ch}
+header .sub{position:relative;max-width:60ch}
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:6px;padding:6px;margin-top:24px;border:1px solid var(--line);border-radius:16px;background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(14px);box-shadow:0 6px 22px rgba(25,40,75,.05)}
+.tabs button{border:0;border-radius:11px;padding:11px 15px;margin:0;color:var(--mute);font-size:14px;font-weight:600;transition:background .18s,color .18s}
+.tabs button[aria-pressed=true]{background:var(--fg);color:var(--card);border-bottom-color:transparent}
+.grid{gap:18px;margin-top:24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 8px 28px rgba(32,49,88,.045)}
+.lbl{font-size:12px;text-transform:uppercase;letter-spacing:.09em;font-weight:700;color:var(--mute);margin:22px 0 9px}
+.seg{padding:4px;gap:4px;border:1px solid var(--line);border-radius:13px;background:var(--bg)}
+.seg button{border-radius:9px;padding:10px 8px;font-size:14px;font-weight:600}
+.seg button[aria-pressed=true],.chip[aria-pressed=true]{background:#4058df;color:#fff;font-weight:700}
+.big{font-size:48px;letter-spacing:-.055em;color:var(--fg)}
+.big small{font-size:15px;font-weight:600}
+input[type=range]{accent-color:#5369ed;height:6px;cursor:pointer}
+.chips{gap:8px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:9px 14px;font-weight:600;transition:all .16s}
+.chip:hover,.fitopt:hover{border-color:#8290ff;transform:translateY(-1px)}
+input[type=number],input[type=text],select,textarea{border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:11px 12px;transition:border .16s,box-shadow .16s}
+input:focus,select:focus,textarea:focus{border-color:#6477f0!important;box-shadow:0 0 0 3px rgba(100,119,240,.14);outline:none}
+h2{font-size:27px;font-weight:700;margin:40px 0 6px;letter-spacing:-.035em}
+h2::after{display:block;width:48px;height:4px;border-radius:9px;margin-top:10px;opacity:1;background:linear-gradient(90deg,#5268ee,#b8f36b)}
+h3{font-size:18px}
+.fitrow{gap:12px}
+.fitopt{border:1px solid var(--line);border-radius:17px;padding:17px;background:var(--card);box-shadow:0 5px 16px rgba(30,48,90,.035);transition:all .18s}
+.fitopt b{font-size:18px;margin-bottom:5px}
+.fitopt[aria-pressed=true]{border-color:#5268ee;background:color-mix(in srgb,#5268ee 7%,var(--card));box-shadow:inset 0 0 0 1px #5268ee,0 8px 22px rgba(82,104,238,.11)}
+.fitopt[aria-pressed=true] b{color:#5268ee}
+.fig{padding:20px;background:linear-gradient(180deg,color-mix(in srgb,#a9b8ff 12%,var(--card)),var(--card) 55%);border-radius:22px}
+.fig svg{max-height:420px}
+.est{margin-top:14px;border-top:1px solid var(--line);padding-top:5px;background:transparent}
+.est div{padding:9px 2px}
+.est div:last-child b{color:#5268ee}
+.cards{gap:14px}
+.cards .card{border:1px solid var(--line);border-top:3px solid #687af2;border-radius:18px;padding:18px;background:var(--card);box-shadow:0 7px 22px rgba(30,48,90,.04);transition:transform .18s,box-shadow .18s}
+.cards .card:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(30,48,90,.08)}
+.gh svg{color:#5369ed}
+.tag{background:#edf0ff;color:#4054ce;border:1px solid #dce2ff;clip-path:none;border-radius:999px;padding:5px 11px;font-weight:700;font-size:13px}
+.v{border:1px solid var(--line);border-left:4px solid currentColor;border-radius:14px;background:color-mix(in srgb,currentColor 6%,var(--card));padding:15px 16px}
+.v b{font-size:24px;margin-bottom:5px}
+.v.ok{color:var(--ok)}.v.warn{color:var(--warn)}.v.bad{color:var(--bad)}
+.btn{background:#4058df;color:#fff;border-radius:12px;padding:12px 18px;font-weight:700;box-shadow:0 6px 16px rgba(64,88,223,.2);transition:transform .16s,box-shadow .16s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 9px 22px rgba(64,88,223,.27)}
+a{color:#4058df;text-decoration-thickness:1px;text-underline-offset:3px}
+details{border-top:1px solid var(--line);padding-top:14px}
+summary{padding:3px 0}
+.sec>summary{font-size:19px}
+pre{border:1px solid var(--line);background:var(--bg);border-radius:14px;padding:16px}
+.hl{background:#e9edff;color:#273db3}
+.tape{height:7px;border-radius:99px;margin:0 20px;background:linear-gradient(90deg,#5369ed,#aab6ff 55%,#b8f36b);background-image:none}
+.tape span{display:none}
+table{border-collapse:separate;border-spacing:0}
+th{background:var(--bg)}
+th:first-child{border-radius:10px 0 0 0}th:last-child{border-radius:0 10px 0 0}
+@media(max-width:600px){
+ .wrap{padding:14px 12px 48px}
+ header{padding:23px 19px 16px;border-radius:22px}
+ h1{font-size:clamp(35px,10vw,48px)}
+ .tabs{gap:3px;padding:4px;margin-top:20px}
+ .tabs button{flex:1;padding:10px 6px;font-size:12px}
+ .grid{gap:12px}
+ .card{padding:17px;border-radius:18px}
+ .fig{padding:14px}
+ h2{font-size:24px;margin-top:32px}
+ .big{font-size:42px}
+ .fitrow{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .fitopt{padding:14px}
+ .fitopt b{font-size:16px}
+ .cards{grid-template-columns:1fr}
+ .cards .card{border-radius:16px;padding:16px}
+ .tape{margin:0 12px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+
+.camera-launch-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,.9fr);gap:18px;align-items:center;background:linear-gradient(135deg,#f0f5ff,#ffffff 70%);border:1px solid #d9e4ff!important;box-shadow:0 10px 28px rgba(36,72,150,.08)}
+.camera-kicker{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.14em;color:#315bd6;margin-bottom:8px}
+.camera-launch-copy h3,.camera-heading h3{font-size:19px;line-height:1.2}
+.camera-launch-copy .hint{max-width:46ch;line-height:1.55}
+.camera-first{margin:0;padding:0;border:0}
+.camera-heading{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.camera-heading .hint{margin-top:4px}
+.camera-icon{display:grid;place-items:center;flex:0 0 46px;height:46px;border-radius:14px;background:#e1eaff;color:#234bc2;font-size:28px;font-weight:700}
+.camera-cta{display:flex;justify-content:center;align-items:center;gap:8px;width:100%;min-height:50px;padding:12px 16px;border-radius:12px;background:#234bc2;color:#fff;font-weight:700;cursor:pointer;text-align:center;box-shadow:0 5px 12px rgba(35,75,194,.18)}
+.camera-cta:hover{background:#173b9f}
+#pf{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip-path:inset(50%)}
+#pf:focus-visible+.camera-cta{outline:3px solid #9bb5ff;outline-offset:3px}
+#pm{line-height:1.5}
+#pc{width:100%;height:auto;max-height:60vh;object-fit:contain;background:#f5f7fb}
+@media(max-width:680px){.camera-launch-card{grid-template-columns:1fr;gap:12px}.camera-launch-copy h3{font-size:18px}.camera-heading{align-items:flex-start}}
+
+</style>
+
+<style>
+/* Personal dashboard styling */
+.sr-label{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.welcome-panel{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin:26px 0 18px;padding:clamp(20px,3.5vw,34px);border:1px solid #dbe4f4;border-radius:26px;background:linear-gradient(125deg,#f5f8ff 0%,#fff 54%,#f1f9f6 100%);box-shadow:0 14px 40px rgba(27,49,91,.07);color:#17233d}
+.eyebrow{margin:0 0 9px;font-size:10px;font-weight:850;letter-spacing:.16em;color:#4666c9}
+.welcome-panel h2,.saved-panel h2{margin:0;font-size:clamp(23px,3vw,32px);letter-spacing:-.04em;color:#17233d}
+.welcome-sub{margin:8px 0 0;color:#65718a;font-size:13px;line-height:1.6}
+.welcome-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:20px}
+.welcome-actions input,.welcome-actions select{width:100%;min-width:0;padding:12px 13px;border:1px solid #d7dfef;border-radius:12px;background:#fff;color:#17233d;font:inherit;font-size:13px}
+.welcome-actions .btn{grid-column:1/-1;width:100%;margin:0;background:#263f9f;color:#fff;border:0;border-radius:12px}
+.progress-panel{align-self:stretch;padding:18px;border-radius:20px;background:#fff;border:1px solid #e0e7f2}
+.progress-heading{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:10px;font-weight:850;letter-spacing:.1em;color:#596986}
+.progress-heading b{font-size:12px;letter-spacing:0;color:#263f9f}
+.progress-track{height:7px;margin:12px 0 18px;border-radius:99px;background:#e9edf5;overflow:hidden}
+.progress-track div{height:100%;width:33.333%;border-radius:99px;background:linear-gradient(90deg,#536de0,#72c8a2);transition:width .25s ease}
+.progress-steps{display:grid;gap:12px}
+.progress-step{display:flex;align-items:center;gap:11px;opacity:.58}
+.progress-step.done{opacity:1}
+.progress-step>span{display:grid;place-items:center;width:32px;height:32px;flex:0 0 32px;border-radius:11px;background:#edf0f7;color:#6a7690;font-size:10px;font-weight:850}
+.progress-step.done>span{background:#e1f6ec;color:#16784c}
+.progress-step b,.progress-step small{display:block}
+.progress-step b{font-size:12px;color:#26334d}
+.progress-step small{margin-top:3px;font-size:11px;color:#778198}
+.saved-panel{margin:0 0 26px;padding:22px;border:1px solid #e0e7f2;border-radius:23px;background:#fff}
+.saved-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.saved-count{padding:7px 10px;border-radius:99px;background:#eef2ff;color:#465fc2;font-size:10px;font-weight:850;letter-spacing:.08em;white-space:nowrap}
+.saved-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:16px}
+.saved-item{padding:15px;border:1px solid #e2e8f3;border-radius:16px;background:linear-gradient(145deg,#fbfcff,#f5f8fd)}
+.saved-item h3{margin:0 0 7px;font-size:14px;color:#202d49}
+.saved-item p{margin:0;color:#66728a;font-size:12px;line-height:1.6}
+.saved-item button{margin-top:12px;padding:8px 10px;border:1px solid #d5def3;border-radius:9px;background:#fff;color:#344fae;font:inherit;font-size:11px;font-weight:750}
+.empty-saved{grid-column:1/-1;margin:0;padding:16px;border:1px dashed #d7dfef;border-radius:14px;color:#7a8599;font-size:12px;line-height:1.6}
+@media(max-width:760px){.welcome-panel{grid-template-columns:1fr;gap:16px;margin-top:18px;padding:19px;border-radius:21px}.welcome-actions{grid-template-columns:1fr}.welcome-actions .btn{grid-column:auto}.saved-panel{padding:18px}.saved-head{align-items:flex-start}}
+</style>
+
+</head>
+<body>
+<div class="tape" id="tape" aria-hidden="true"></div>
+<div class="wrap">
+<header>
+<h1>Find clothes that actually fit.</h1>
+<p class="sub">Enter your body and the fit you like. You get the exact garment measurements to look for in any store, or to hand to a tailor, so nothing ends up tiny or accidentally huge. Shopping mitumba, thrift or boutiques? <a href="#check">Skip to the in-shop check.</a></p>
+<div class="tabs" id="mode"><button data-v="me">My fit</button><button data-v="check">Check an item</button><button data-v="log">Diary and tailor</button></div>
+<p class="hint shoponly">Shop mode uses your saved height, weight and fit settings. Switch to Full planner to change them.</p>
+</header>
+
+
+<!-- Personal dashboard additions -->
+<section class="welcome-panel" aria-label="Personal fit dashboard">
+  <div class="welcome-copy">
+    <p class="eyebrow">YOUR PERSONAL FIT STUDIO</p>
+    <h2 id="welcomeTitle">Your fit. Your rules.</h2>
+    <p class="welcome-sub">Build your fit profile, check pieces before you buy, and keep the ones that work.</p>
+    <div class="welcome-actions">
+      <label class="sr-label" for="nickname">What should we call you?</label>
+      <input id="nickname" type="text" maxlength="24" placeholder="Add your name (optional)" autocomplete="given-name">
+      <label class="sr-label" for="quickGarment">Choose a garment</label>
+      <select id="quickGarment" aria-label="Choose a garment to check"></select>
+      <button class="btn" id="quickCheck" type="button">Check this item ↗</button>
+    </div>
+  </div>
+  <div class="progress-panel">
+    <div class="progress-heading"><span>YOUR FIT JOURNEY</span><b id="progressCount">1 of 3</b></div>
+    <div class="progress-track"><div id="progressFill"></div></div>
+    <div class="progress-steps">
+      <div class="progress-step done" id="stepProfile"><span>01</span><div><b>Set your fit</b><small>Profile ready</small></div></div>
+      <div class="progress-step" id="stepFavorite"><span>02</span><div><b>Save a favorite</b><small id="favoriteStepText">Keep a fit you love</small></div></div>
+      <div class="progress-step" id="stepDiary"><span>03</span><div><b>Build your diary</b><small id="diaryStepText">Learn from real purchases</small></div></div>
+    </div>
+  </div>
+</section>
+<section class="saved-panel" aria-label="Saved favorites">
+  <div class="saved-head"><div><p class="eyebrow">YOUR PERSONAL LIBRARY</p><h2>Saved favorites</h2><p class="welcome-sub">Measurements you saved from clothes you already love.</p></div><span class="saved-count" id="savedCount">0 SAVED</span></div>
+  <div id="savedFavorites" class="saved-grid"><p class="empty-saved">No favorites saved yet. In “Check an item”, measure a piece you love and tap “Save entered numbers as my favorite”.</p></div>
+</section>
+
+<div class="p-me">
+<div class="grid">
+ <div class="card">
+  <div class="lbl">Sizing</div>
+  <div class="seg" id="sex"><button data-v="f">Female</button><button data-v="m">Male</button></div>
+  <div class="lbl">Units</div>
+  <div class="seg" id="units"><button data-v="0">Metric (cm, kg)</button><button data-v="1">Imperial (ft, lb)</button></div>
+  <div class="lbl">Size labels you shop in</div>
+  <select id="reg" aria-label="Size label region"></select>
+  <div class="lbl">Height</div>
+  <div class="big" id="hv"></div>
+  <input type="range" id="h" min="140" max="210" step="1" aria-label="Height">
+  <div class="lbl">Weight</div>
+  <div class="big" id="wv"></div>
+  <input type="range" id="w" min="40" max="160" step="1" aria-label="Weight">
+  <div class="lbl">Build</div>
+  <div class="chips" id="builds"></div>
+  <p class="hint" id="bhint"></p>
+  <details>
+    <summary>Know your real measurements? Add them for better accuracy</summary>
+    <div class="row2" style="margin-top:12px">
+      <div><label class="fl" for="oc">Chest / bust (<span class="u">cm</span>)</label><input type="number" id="oc" step="0.5" min="0"></div>
+      <div><label class="fl" for="ow">Waist (<span class="u">cm</span>)</label><input type="number" id="ow" step="0.5" min="0"></div>
+      <div><label class="fl" for="oh">Hips (<span class="u">cm</span>)</label><input type="number" id="oh" step="0.5" min="0"></div>
+      <div><label class="fl" for="of">Foot length (<span class="u">cm</span>)</label><input type="number" id="of" step="0.1" min="0"></div>
+    </div>
+    <p class="hint">Measure over light clothing, tape snug but not pulling. Leave blank to use estimates.</p>
+  </details>
+ </div>
+ <div class="card fig">
+  <svg id="svg" viewBox="0 0 220 400" role="img" aria-label="Body silhouette scaled to your height and build"></svg>
+  <div class="est" id="est"></div>
+ </div>
+</div>
+
+<h2>The fit you want</h2>
+<p class="sub">Pick one default, then tweak any garment. Plenty of people want oversized tees but tailored trousers.</p>
+<div class="fitrow" id="fits"></div>
+<details style="margin-top:14px"><summary>Choose a different fit per garment</summary><div class="per" id="per"></div></details>
+
+<h2>Your roadmap</h2>
+<p class="sub">Compare these numbers with the size chart on any product page. Stores list flat measurements, so we give you those too.</p>
+<div class="cards" id="cards"></div>
+
+<details class="sec"><summary>Size labels around the world</summary>
+<p class="sub">The label to look for in each region, for the fit you chose. Your own region is highlighted.</p>
+<div class="card" id="conv" style="margin-top:16px"></div></details>
+
+<button class="btn" data-go="check" style="margin-top:22px">Next: check an item in the shop</button>
+</div>
+<div class="p-check">
+<h2 id="check">Check an item in the shop</h2>
+<p class="sub">Tags on mitumba, thrift and boutique clothes are unreliable because they often come from many countries, so ignore the label. Lay the item flat, measure it, and enter the numbers. No tape measure? Measure something you already love and save it as your favorite.</p>
+<section class="card camera-launch-card" style="margin-top:16px">
+ <div class="camera-launch-copy"><span class="camera-kicker">QUICK START</span><h3>Check it with your camera first</h3><p class="hint">Lay the clothing flat, place a bank card or paper beside it for scale, then take a photo. You can also enter measurements manually below.</p></div>
+ <div class="camera-launch-action"> <section id="ph" class="camera-first">
+  <div class="camera-heading"><div class="camera-icon" aria-hidden="true">⌗</div><div><h3>Start with your camera</h3><p class="hint">Photograph the garment and estimate measurements directly on the image — no tape measure needed.</p></div></div>
+  <label class="camera-cta" for="pf">📷 Take a photo of the item</label>
+  <p class="hint">Lay the item flat and put a bank card or a sheet of paper on it, lying flat. Take the photo from above (a slight tilt is fine, the app corrects for it). Tap the four corners of the reference: start at one end of a long edge, go along it, then around. Then pick a measurement and tap its two ends. Drag any point to fine-tune it. Expect about 1 cm of error.</p>
+  <select id="pref" aria-label="Reference object" style="margin-bottom:10px"><option value="8.56,5.4">Bank or ID card (8.6 × 5.4 cm)</option><option value="29.7,21">A4 paper (29.7 × 21 cm)</option><option value="27.94,21.59">US letter paper (27.9 × 21.6 cm)</option></select>
+  <input type="file" accept="image/*" capture="environment" id="pf" aria-label="Take or choose a photo">
+  <div id="pm" style="margin-top:10px"></div>
+  <canvas id="pc" style="max-width:100%;max-height:70vh;display:none;border-radius:10px;touch-action:none;margin:0 auto"></canvas>
+</section></div>
+</section>
+<div class="card" style="margin-top:12px">
+ <h3 style="margin-bottom:12px">Or enter measurements manually</h3>
+ <div class="row2">
+  <div><label class="fl" for="cg">Garment</label><select id="cg"></select></div>
+  <div><label class="fl" for="cf">Fit you want</label><select id="cf"></select></div>
+  <div><label class="fl" for="cfb">Fabric</label><select id="cfb"><option value="rigid">Regular</option><option value="stretch">Stretchy</option><option value="shrink">Might shrink (old cotton)</option></select></div>
+  <div id="cmode" style="grid-column:1/-1"></div><div id="cin" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;grid-column:1/-1"></div>
+  
+ </div>
+ <div id="verdict"></div>
+
+ <details><summary>How to measure an item</summary><p class="hint">Lay it flat and smooth it out. Chest: straight across from armpit seam to armpit seam. Length: from the top of the shoulder beside the collar down to the hem. Shoulders: seam to seam across the back. Sleeve: shoulder seam to cuff. Waist: across the top of the waistband, fastened. Seat: across the widest point below the fly. Inseam: crotch seam to hem along the inside leg. Stretchy fabric measures smaller flat than it wears.</p></details>
+</div>
+
+</div>
+<div class="p-log">
+<h2>Fit diary</h2>
+<p class="sub">After you buy and wear something, log how it really fit. Your targets learn from your own clothes, so they improve the more you log.</p>
+<div class="card" style="margin-top:16px">
+ <p class="hint" style="margin:0 0 12px">This uses the garment and numbers entered in the check above.</p>
+ <div class="row2">
+  <div><label class="fl" for="ln">Item or shop (optional)</label><input type="text" id="ln" maxlength="40" placeholder="e.g. grey hoodie, mitumba stall"></div>
+  <div><label class="fl" for="lr1">How it fits (chest, seat or shoe length)</label><select id="lr1"><option value="-2">Too tight</option><option value="-1">A bit snug</option><option value="0" selected>Just right</option><option value="1">A bit loose</option><option value="2">Too loose</option></select></div>
+  <div><label class="fl" for="lr2">Length</label><select id="lr2"><option value="-1">Too short</option><option value="0" selected>Right</option><option value="1">Too long</option></select></div>
+ </div>
+ <button class="btn" id="logbtn">Save to diary</button>
+ <p class="hint" id="logmsg"></p>
+ <div id="diary" style="margin-top:10px"></div>
+ <details style="margin-top:14px"><summary>Back up or restore</summary>
+  <p class="hint">Copy the backup text and keep it in a note or a message to yourself. To restore on a new phone, paste it here and restore.</p>
+  <textarea id="bk" rows="4" aria-label="Backup text" style="width:100%;font:inherit;font-size:13px;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px"></textarea>
+  <div class="chips" style="margin-top:8px"><button class="chip" id="bkc">Copy backup</button><button class="chip" id="bkr">Restore from text</button></div>
+  <p class="hint" id="bkm"></p>
+ </details>
+</div>
+
+<div>
+<h2>Tailor card</h2>
+<p class="sub">Show this to a tailor or save it for later.</p>
+<div class="card noprintcard" style="margin-top:16px">
+ <pre id="tailor"></pre>
+ <button class="btn noprint" id="copy">Copy to clipboard</button>
+ <button class="btn noprint" id="print" style="margin-left:8px">Print</button>
+</div>
+</div>
+</div>
+<p class="hint">Measurements are estimates from height, weight and build, so treat them as a starting range (±2 cm). Your saved inputs stay on this device.</p>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const FITS=["tailored","regular","relaxed","oversized"];
+const FD={tailored:"Close to the body, no pulling or drag lines.",regular:"Comfortable and clean, skims the body.",relaxed:"Room to move with a soft drape.",oversized:"Deliberately big: dropped shoulders, boxy shape."};
+const BUILD={lean:["Lean",[-3,-5,-3,-1],"Slim frame, narrower through the chest and waist."],average:["Average",[0,0,0,0],"Typical proportions for your height and weight."],athletic:["Athletic",[5,-4,0,2],"Broad shoulders and chest, narrower waist."],solid:["Solid",[4,4,2,2],"Stocky, broad all round."],soft:["Soft middle",[1,6,3,0],"Fuller through the waist than the chest."]};
+const G={
+ tee:{n:"T-shirt",e:[6,12,18,26],len:[0,2,5,8],sh:[0,1,4,8]},
+ shirt:{n:"Button-up shirt",e:[6,12,18,24],len:[3,5,7,9],sh:[0,0,2,5],sl:1},
+ hoodie:{n:"Hoodie or sweater",e:[10,18,26,36],len:[2,4,7,10],sh:[0,2,5,9],sl:1},
+ jacket:{n:"Jacket or blazer",e:[8,14,20,28],len:[0,2,4,6],sh:[0,1,3,6],sl:1},
+ pants:{n:"Trousers or jeans",w:[1,2,4,6],e:[6,10,16,22]},
+ shorts:{n:"Shorts",w:[1,2,4,6],e:[6,10,16,22],insf:[.10,.12,.14,.16]},
+ skirt:{n:"Skirt",w:[1,2,3,5],e:[4,8,14,20]},
+ dress:{n:"Dress",t:"d",e:[4,10,16,24],w:[2,8,14,22],sh:[0,1,3,6]},
+ shoes:{n:"Shoes",t:"f",e:[.8,1.2,1.5,2]}
+};
+const SZ=[["XS",94],["S",100],["M",106],["L",112],["XL",118],["XXL",124],["3XL",130]];
+const D={ui:"me",fab:"rigid",log:[],refs:{},mode:"fit",reg:"KE",sex:"m",imp:0,h:178,w:72,build:"average",fit:"regular",fits:{tee:"regular",shirt:"regular",hoodie:"regular",jacket:"regular",pants:"regular",shorts:"regular",skirt:"regular",dress:"regular",shoes:"regular"},ov:{c:0,w:0,h:0,f:0},cg:"tee"};
+let S=Object.assign({},D);
+try{const j=JSON.parse(localStorage.getItem("fitroadmap")||"null");if(j)S=Object.assign({},D,j,{fits:Object.assign({},D.fits,j.fits),ov:Object.assign({},D.ov,j.ov)})}catch(e){}
+const save=()=>{try{localStorage.setItem("fitroadmap",JSON.stringify(S))}catch(e){}};
+
+const cm2=v=>S.imp?v/2.54:v;
+const fmt=v=>S.imp?(v/2.54).toFixed(1)+" in":(Math.abs(v)<40?v.toFixed(1):Math.round(v))+" cm";
+const unit=()=>S.imp?"in":"cm";
+
+function est(){
+ const m=S.sex==="m",bmi=S.w/((S.h/100)**2),B=BUILD[S.build][1];
+ let c=(m?38.5+2.65*bmi:43+2.1*bmi)+B[0],w=(m?35+2.3*bmi:28+2.1*bmi)+B[1],hp=(m?48+2.3*bmi:52+2.2*bmi)+B[2];
+ if(S.ov.c)c=S.ov.c;if(S.ov.w)w=S.ov.w;if(S.ov.h)hp=S.ov.h;
+ return{c,w,hp,sh:(m?.245:.225)*S.h+B[3],arm:(m?.33:.31)*S.h,ins:(m?.45:.44)*S.h,torso:(m?.395:.38)*S.h,foot:S.ov.f||(m?.15:.145)*S.h};
+}
+function calc(k,e){const q=calcX(k,e);if(q)return q;
+ const g=G[k],i=FITS.indexOf(S.fits[k]);
+ if(k==="pants")return{main:(e.hp+g.e[i])/2,mainName:"Seat flat width",rows:[["Waist (relaxed)",e.w+g.w[i]],["Seat flat width",(e.hp+g.e[i])/2],["Inseam",e.ins]],size:"W"+Math.round(e.w/2.54)};
+ const flat=(e.c+g.e[i])/2,len=e.torso+g.len[i],sh=e.sh+g.sh[i];
+ const rows=[["Chest, pit to pit",flat],["Body length",len],["Shoulder seam to seam",sh]];
+ if(g.sl)rows.push(["Sleeve, seam to cuff",e.arm-g.sh[i]/2+(i>=2?2:0)]);
+ const tc=e.c+g.e[i];let best=SZ[0];SZ.forEach(s=>{if(Math.abs(s[1]-tc)<Math.abs(best[1]-tc))best=s});
+ return{main:flat,mainName:"Chest, pit to pit",len,rows,size:best[0],off:Math.abs(best[1]-tc)>3};
+}
+
+const REG=[["US","US"],["UK","UK"],["EU","EU"],["AU","Australia"],["JP","Japan"],["CN","China, Korea"],["KE","Kenya (UK, EU, US tags)"]];
+const WT=[[4,76,58,82],[6,80,62,86],[8,84,66,90],[10,88,70,94],[12,92,74,98],[14,96,78,102],[16,100,82,106],[18,106,88,112],[20,112,94,118],[22,118,100,124],[24,124,106,130]];
+const LM=["XS","S","M","L","XL","XXL","3XL"];
+const near=(v,c)=>{let b=0;WT.forEach((r,j)=>{if(Math.abs(r[c]-v)<Math.abs(WT[b][c]-v))b=j});return b};
+function lab(k,e){const q=labX(k,e);if(q)return q;
+ const g=G[k],i=FITS.indexOf(S.fits[k]),m=S.sex==="m",pt=["pants","shorts","skirt"].includes(k);
+ const dc=g.e[i]-g.e[1],dw=pt?g.w[i]-g.w[1]:dc;
+ const bust=e.c+dc,waist=e.w+dw,hip=e.hp+dc;
+ const h5=5*Math.round(S.h/5),sh=S.build==="athletic"?"Y":(S.build==="solid"||S.build==="soft")?"B":"A",o={};
+ if(m){
+  let li,txt,eu,cn,jp;
+  if(!pt){const n=Math.max(32,Math.min(54,2*Math.round(bust/5.08)));li=n<=34?0:n<=36?1:n<=40?2:n<=42?3:n<=44?4:n<=46?5:6;txt=LM[li]+" ("+n+")";eu=n+10;jp=LM[Math.min(6,li+1)];cn=h5+"/"+2*Math.round(bust/2)+sh}
+  else{const n=Math.max(26,Math.min(46,2*Math.round(waist/5.08)));li=n<=28?0:n<=30?1:n<=32?2:n<=34?3:n<=38?4:n<=42?5:6;txt="W"+n;eu=n+16;jp=2*Math.round(waist/2)+" cm";cn=h5+"/"+2*Math.round(waist/2)+sh}
+  Object.assign(o,{Letter:LM[li],US:txt,UK:txt,AU:txt,EU:eu,JP:jp,CN:cn});
+ }else{
+  const ix=pt?Math.max(near(waist,2),near(hip,3)):near(bust,1),uk=WT[ix][0];
+  const li=uk<=6?0:uk<=8?1:uk<=12?2:uk<=14?3:uk<=16?4:uk<=20?5:6;
+  Object.assign(o,{Letter:LM[li],US:uk-4,UK:uk,AU:uk,EU:uk+28,JP:uk-1,CN:h5+"/"+2*Math.round((pt?waist:bust)/2)+sh});
+ }
+ return o;
+}
+
+const MET={skl:["Skirt length",3,1,0,"The hem can be shortened.","It can’t be made longer."],foot:["Inside length",.7,0,0,"It will slip at the heel.","Your toes will be cramped."],flat:["Chest, pit to pit",2,1,0,"A tailor can take in the sides.","Too tight, and it can’t be let out reliably."],len:["Length",3,1,0,"The hem can be shortened.","It can’t be made longer."],sh:["Shoulders",2,0,0,"Shoulders are costly to alter.","Shoulders can’t be let out."],sl:["Sleeve, seam to cuff",3,1,0,"Sleeves can be shortened.","It can’t be made longer."],wa:["Waist, across the band",1.5,1,0,"Easy to take in.","Rarely lets out enough."],seat:["Seat, across the widest point",2,1,0,"Can be taken in.","Can’t be let out reliably."],ins:["Inseam",3,1,0,"The hem can be shortened.","It can’t be made longer."]};
+function calcX(k,e){const g=G[k],i=FITS.indexOf(S.fits[k]);
+ if(k==="shorts"){const ins=S.h*g.insf[i],wc=e.w+g.w[i],sf=(e.hp+g.e[i])/2;return{main:sf,mainName:"Seat flat width",rows:[["Waist (relaxed)",wc],["Seat flat width",sf],["Inseam",ins]],mx:{ids:["wa","seat","ins"],t:{wa:wc/2,seat:sf,ins}}}}
+ if(k==="skirt"){const wf=(e.w+g.w[i])/2,hf=(e.hp+g.e[i])/2,l=S.h*.28;return{main:hf,mainName:"Hip across",rows:[["Waist across",wf],["Hip across",hf],["Skirt length",l]],mx:{ids:["wa","seat","skl"],t:{wa:wf,seat:hf,skl:l}}}}
+ if(k==="dress"){const f=(e.c+g.e[i])/2,wf=(e.w+g.w[i])/2,hf=(e.hp+g.e[i])/2,l=S.h*.45,sh=e.sh+g.sh[i];return{main:f,mainName:"Chest, pit to pit",rows:[["Chest, pit to pit",f],["Waist across",wf],["Hip across",hf],["Length, shoulder to hem",l],["Shoulder seam to seam",sh]],mx:{ids:["flat","wa","seat","len","sh"],t:{flat:f,wa:wf,seat:hf,len:l,sh}}}}
+ if(k==="shoes"){const L=e.foot+g.e[i];return{main:L,tol:.7,mainName:"Inside length",rows:[["Inside length",L]],mx:{ids:["foot"],t:{foot:L}}}}
+ return null}
+function labX(k,e){const g=G[k],i=FITS.indexOf(S.fits[k]),m=S.sex==="m";
+ if(g.t==="f"){const L=e.foot+g.e[i],uk=Math.round((L/2.54*3-25)*2)/2;return{Letter:"",US:uk+(m?1:2),UK:uk,AU:uk,EU:Math.round(L*3)/2,JP:(Math.round(e.foot*2)/2).toFixed(1),CN:Math.round(e.foot*2)*5}}
+ if(g.t==="d"&&!m){const b=e.c+g.e[i]-g.e[1],ix=Math.max(near(b,1),near(e.w+g.w[i]-g.w[1],2),near(e.hp+g.e[i]-g.e[1],3)),uk=WT[ix][0],li=uk<=6?0:uk<=8?1:uk<=12?2:uk<=14?3:uk<=16?4:uk<=20?5:6;return{Letter:LM[li],US:uk-4,UK:uk,AU:uk,EU:uk+28,JP:uk-1,CN:5*Math.round(S.h/5)+"/"+2*Math.round(b/2)+"A"}}
+ return null}
+const SH={flat:1,len:2,sh:.5,sl:1,wa:.5,seat:1,ins:2};
+const PH={img:null,s:0,cal:[],pts:[],cur:null,done:{},k:""};let IDS=[];
+const dist=p=>Math.hypot(p[0][0]-p[1][0],p[0][1]-p[1][1]);
+function phDraw(){if(!PH.img)return;const c=$("#pc"),x=c.getContext("2d"),lw=Math.max(3,c.width/220);x.drawImage(PH.img,0,0,c.width,c.height);
+ const ln=(a,b,col)=>{x.strokeStyle=col;x.lineWidth=lw;x.beginPath();x.moveTo(a[0],a[1]);x.lineTo(b[0],b[1]);x.stroke()},dot=(p,col)=>{x.fillStyle=col;x.beginPath();x.arc(p[0],p[1],lw*2,0,7);x.fill()};
+ if(PH.cal.length===2)ln(PH.cal[0],PH.cal[1],"#ff3b30");PH.cal.forEach(p=>dot(p,"#ff3b30"));
+ Object.values(PH.done).forEach(d=>{ln(d[0],d[1],"#ffd23f");dot(d[0],"#ffd23f");dot(d[1],"#ffd23f")});PH.pts.forEach(p=>dot(p,"#ffd23f"))}
+function phUI(){const el=$("#pm");if(!PH.img){el.innerHTML="";return}
+ if(PH.k!==S.cg+S.imp){PH.k=S.cg+S.imp;PH.done={};PH.cur=null;PH.pts=[];phDraw()}
+ el.innerHTML=PH.cal.length<2?`<div class="v warn">Tap both ends of the reference’s long edge (${PH.cal.length} of 2 done).</div>`:`<div class="chips">${IDS.map(id=>`<button class="chip" data-p="${id}" aria-pressed="${PH.cur===id}">${MET[id][0].split(",")[0]}${PH.done[id]?" \u2713":""}</button>`).join("")}</div><p class="hint">${PH.cur?"Tap the two ends of the "+MET[PH.cur][0].split(",")[0].toLowerCase()+" measurement.":"Pick a measurement, then tap its two ends on the photo."}</p><button class="chip" data-p="reset">Redo calibration</button>`}
+const LR=["Too tight","A bit snug","Just right","A bit loose","Too loose"];
+const esc=s=>s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const prim=k=>({pants:"seat",shorts:"seat",skirt:"seat",shoes:"foot"}[k]||"flat"),sec=k=>({pants:"ins",shorts:"ins",skirt:"skl",shoes:null}[k]||"len");
+function learn(k){const acc={};
+ S.log.filter(x=>x.k===k).forEach(x=>[[prim(k),x.r],[sec(k),x.lr]].forEach(([id,r])=>{if(x.v[id]>0&&typeof r==="number")(acc[id]=acc[id]||[]).push(x.v[id]-r*MET[id][1])}));
+ const v={};let n=0;Object.keys(acc).forEach(id=>{v[id]=acc[id].reduce((a,b)=>a+b,0)/acc[id].length;n=Math.max(n,acc[id].length)});return{v,n}}
+function diary(e){
+ const ks=Object.keys(G).filter(k=>S.log.some(x=>x.k===k));
+ const sum=ks.map(k=>{const L=learn(k),p=prim(k),r=calc(k,e),f=r.mx?r.mx.t[p]:k==="pants"?r.rows[1][1]:r.rows[0][1];return L.v[p]?`<p class="note" style="margin:6px 0"><b>${G[k].n}:</b> your ideal ${MET[p][0].split(",")[0].toLowerCase()} is about ${fmt(L.v[p])}, against a formula target of ${fmt(f)}, from ${L.n} ${L.n>1?"buys":"buy"}.</p>`:""}).join("");
+ const list=S.log.map((x,i)=>`<div class="m"><span>${G[x.k].n}${x.name?", "+esc(x.name):""}</span><b>${x.v[prim(x.k)]?fmt(x.v[prim(x.k)])+", ":""}${LR[x.r+2]} <button class="chip" data-d="${i}">Remove</button></b></div>`).reverse().join("");
+ $("#diary").innerHTML=S.log.length?sum+`<div style="margin-top:8px">${list}</div>`:`<p class="note">Nothing logged yet. Measure an item above, then log how it fits after you wear it.</p>`;
+}
+function chk(e){
+ const k=S.cg,g=G[k],r=calc(k,e),X=r.mx||null,P=k==="pants";
+ const ids=X?X.ids:P?["wa","seat","ins"]:["flat","len","sh"].concat(g.sl?["sl"]:[]);
+ const t=X?X.t:P?{wa:r.rows[0][1]/2,seat:r.rows[1][1],ins:r.rows[2][1]}:{flat:r.rows[0][1],len:r.rows[1][1],sh:r.rows[2][1],sl:g.sl?r.rows[3][1]:0};
+ const fav=S.refs[k]||null,ln=learn(k),hasL=Object.keys(ln.v).length>0,useFav=S.mode==="fav"&&!!fav,useL=S.mode==="lrn"&&hasL,T=Object.assign({},t,useFav?fav:useL?ln.v:{});if(S.fab==="shrink")Object.keys(T).forEach(id=>{T[id]+=SH[id]||0});const tm=S.fab==="stretch"?1.4:1;
+ $("#cg").value=k;IDS=ids;$("#cf").value=S.fits[k];$("#cfb").value=S.fab;
+ const ci=$("#cin");
+ if(ci.dataset.k!==k+S.imp){ci.dataset.k=k+S.imp;ci.innerHTML=ids.map(id=>`<div><label class="fl" for="ci_${id}">${MET[id][0]} (${unit()})</label><input type="number" id="ci_${id}" step="0.5" min="0"></div>`).join("")}
+ ids.forEach(id=>$("#ci_"+id).placeholder="target "+(S.imp?(T[id]/2.54).toFixed(1):(Math.abs(T[id])<40?T[id].toFixed(1):Math.round(T[id]))));
+ $("#cmode").innerHTML=`<p class="note" style="margin:0 0 12px"><b>Tags to pick off the rack:</b> ${(q=>REG.filter(r=>r[0]!=="KE").map(r=>r[1]+" "+q[r[0]]).join(", "))(lab(k,e))}. Check one size either side, then measure.</p><details${OPEN.cmp?" open":""} style="margin:0 0 12px"><summary>Compare against something else</summary><div class="seg" style="margin:10px 0"><button data-m="fit" aria-pressed="${!useFav&&!useL}">Your fit targets</button><button data-m="fav" aria-pressed="${useFav}" ${fav?"":"disabled"}>My favorite</button><button data-m="lrn" aria-pressed="${useL}" ${hasL?"":"disabled"}>Learned from my buys</button></div><p class="hint" style="margin:0 0 10px">${useFav?"Comparing to the numbers you saved from a favorite.":useL?"Comparing to targets learned from your fit diary.":"Comparing to the targets for your body and chosen fit."}</p><button class="chip" id="savefav">Save entered numbers as my favorite ${g.n.toLowerCase()}</button></details>`;
+ let rows="",fix=[],soft=[],block=[],n=0;
+ ids.forEach(id=>{const v=parseFloat($("#ci_"+id).value);if(!(v>0))return;n++;
+  const M=MET[id],c=S.imp?v*2.54:v,d=c-T[id],ad=Math.abs(d),st=ad<=M[1]*tm?"ok":ad<=2*M[1]*tm?"warn":"bad",can=d>0?M[2]:M[3],nm=M[0].split(",")[0].toLowerCase();
+  rows+=`<div class="m"><span>${M[0]}</span><b class="${st}">${fmt(c)} vs ${fmt(T[id])}. ${st==="ok"?"On target.":d>0?"Too big. "+M[4]:"Too small. "+M[5]}</b></div>`;
+  if(st!=="ok"){if(can)fix.push(nm+(st==="bad"?" (big job)":""));else if(st==="bad")block.push(nm);else soft.push(nm)}
+ });
+ let V="";
+ if(n){const[c,h,x]=block.length?["bad","Pass.","Too far off on "+block.join(", ")+", and that can’t be fixed."]:soft.length?["warn","Borderline.","Slightly off on "+soft.join(", ")+", which a tailor can’t fix."+(fix.length?" It also needs tailoring: "+fix.join(", ")+".":"")]:fix.length?["warn","Buy only if you’ll tailor it.","Needs work on "+fix.join(", ")+"."]:["ok","Buy it.","Everything is within range of your target."];
+  V=`<div class="v ${c}"><b>${h}</b> ${x}</div><div style="margin-top:10px">${rows}</div>`}
+ else V=`<p class="note">Enter at least one measurement to get a verdict.</p>`;
+ phUI();
+ $("#verdict").innerHTML=V;
+}
+
+function fig(e){
+ const k=1.75,fl=380,H=S.h*k,c=118,kx=1.75,y=f=>(fl-H*f).toFixed(1);
+ const sw=e.sh*kx/2,cw=e.c*.34*kx/2,ww=e.w*.32*kx/2,hw=e.hp*.335*kx/2;
+ const P=[[c-8,.88],[c-sw,.82],[c-cw,.72],[c-ww,.6],[c-hw,.5],[c-hw*.9,.27],[c-hw*.55,.02],[c-4,.02],[c-3,.45],[c+3,.45],[c+4,.02],[c+hw*.55,.02],[c+hw*.9,.27],[c+hw,.5],[c+ww,.6],[c+cw,.72],[c+sw,.82],[c+8,.88]];
+ const d="M"+P.map(p=>p[0].toFixed(1)+","+y(p[1])).join(" L")+"Z";
+ let t="";for(let cmv=0;cmv<=S.h;cmv+=5){const yy=(fl-cmv*k).toFixed(1),big=cmv%10===0;t+=`<line x1="${big?4:10}" x2="18" y1="${yy}" y2="${yy}" stroke="var(--fg)" stroke-width="1"/>`;}
+ const call=(f,x,txt,side)=>{const yy=y(f);return `<line x1="${x}" x2="${side>0?208:x}" y1="${yy}" y2="${yy}" stroke="var(--fg)" stroke-dasharray="2 3" opacity=".6"/><text x="${side>0?210:x}" y="${(+yy-4)}" font-size="11" fill="var(--fg)" text-anchor="${side>0?"end":"start"}" font-weight="500">${txt}</text>`};
+ $("#svg").innerHTML=`<rect x="0" y="${fl-H}" width="20" height="${H}" fill="var(--tape)" opacity=".9"/>${t}
+ <line x1="${c+sw*.2}" y1="${y(.82)}" x2="${c+sw+14}" y2="${+y(.5)}" stroke="var(--fg)" stroke-width="11" stroke-linecap="round" opacity=".92"/>
+ <line x1="${c-sw*.2}" y1="${y(.82)}" x2="${c-sw-14}" y2="${+y(.5)}" stroke="var(--fg)" stroke-width="11" stroke-linecap="round" opacity=".92"/>
+ <circle cx="${c}" cy="${y(.945)}" r="${H*.05}" fill="var(--fg)"/><path d="${d}" fill="var(--fg)"/>
+ ${call(.72,c+cw,"chest "+fmt(e.c),1)}${call(.6,c+ww,"waist "+fmt(e.w),1)}${call(.5,c+hw,"hips "+fmt(e.hp),1)}`;
+}
+
+function build(){
+ $("#reg").innerHTML=REG.map(r=>`<option value="${r[0]}">${r[1]}</option>`).join("");
+ $("#builds").innerHTML=Object.keys(BUILD).map(k=>`<button class="chip" data-b="${k}">${BUILD[k][0]}</button>`).join("");
+ $("#fits").innerHTML=FITS.map(f=>`<button class="fitopt" data-f="${f}"><b>${f[0].toUpperCase()+f.slice(1)}</b><span>${FD[f]}</span></button>`).join("");
+ const opts=FITS.map(f=>`<option value="${f}">${f[0].toUpperCase()+f.slice(1)}</option>`).join("");
+ $("#per").innerHTML=Object.keys(G).map(k=>`<div><label for="p_${k}">${G[k].n}</label><select id="p_${k}" data-g="${k}">${opts}</select></div>`).join("");
+ $("#cg").innerHTML=Object.keys(G).map(k=>`<option value="${k}">${G[k].n}</option>`).join("");
+ $("#quickGarment").innerHTML=Object.keys(G).map(k=>`<option value="${k}">${G[k].n}</option>`).join("");
+ $("#cf").innerHTML=FITS.map(f=>`<option value="${f}">${f[0].toUpperCase()+f.slice(1)}</option>`).join("");
+}
+
+function renderPersonalDashboard(){
+ const favs=Object.keys(S.refs||{}).filter(k=>S.refs[k]&&Object.keys(S.refs[k]).length);
+ const count=Math.min(3,1+(favs.length?1:0)+(S.log.length?1:0));
+ $("#progressCount").textContent=`${count} of 3`;
+ $("#progressFill").style.width=(count/3*100)+"%";
+ $("#stepFavorite").classList.toggle("done",favs.length>0);
+ $("#stepDiary").classList.toggle("done",S.log.length>0);
+ $("#favoriteStepText").textContent=favs.length?`${favs.length} favorite${favs.length===1?"":"s"} saved`:"Keep a fit you love";
+ $("#diaryStepText").textContent=S.log.length?`${S.log.length} real fit result${S.log.length===1?"":"s"} logged`:"Learn from real purchases";
+ $("#savedCount").textContent=`${favs.length} SAVED`;
+ $("#savedFavorites").innerHTML=favs.length?favs.map(k=>{
+   const vals=S.refs[k], pairs=Object.entries(vals).filter(([id,v])=>Number.isFinite(+v)&&+v>0).slice(0,4);
+   return `<article class="saved-item"><h3>${G[k]?.n||k}</h3><p>${pairs.length?pairs.map(([id,v])=>`${({flat:"Chest / pit to pit",len:"Length",sh:"Shoulders",sl:"Sleeve",wa:"Waist",seat:"Seat",ins:"Inseam",skl:"Skirt length",foot:"Inside length"}[id]||id)}: ${fmt(+v)}`).join("<br>"):"Saved measurements ready to compare"}</p><button type="button" data-load-favorite="${k}">Use this favorite</button></article>`;
+ }).join(""):`<p class="empty-saved">No favorites saved yet. In “Check an item”, measure a piece you love and tap “Save entered numbers as my favorite”.</p>`;
+}
+function updateWelcome(){
+ const nick=(S.nickname||"").trim();
+ $("#welcomeTitle").textContent=nick?`${nick}’s fit studio.`:"Your fit. Your rules.";
+ if($("#nickname").value!==nick)$("#nickname").value=nick;
+}
+function update(){
+ const e=est();
+ if(!["me","check","log"].includes(S.ui))S.ui=S.ui==="shop"?"check":"me";document.body.dataset.tab=S.ui;document.querySelectorAll("#mode button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.ui));
+ document.querySelectorAll("#sex button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.sex));
+ document.querySelectorAll("#units button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v==String(S.imp)));
+ document.querySelectorAll("#builds .chip").forEach(b=>b.setAttribute("aria-pressed",b.dataset.b===S.build));
+ document.querySelectorAll("#fits .fitopt").forEach(b=>b.setAttribute("aria-pressed",b.dataset.f===S.fit));
+ document.querySelectorAll("#per select").forEach(s=>s.value=S.fits[s.dataset.g]);
+ $("#bhint").textContent=BUILD[S.build][2];
+ const ti=Math.round(S.h/2.54);
+ $("#hv").innerHTML=S.imp?`${Math.floor(ti/12)}'${ti%12}"`:`${S.h}<small>cm</small>`;
+ $("#wv").innerHTML=S.imp?`${Math.round(S.w*2.2046)}<small>lb</small>`:`${S.w}<small>kg</small>`;
+ document.querySelectorAll(".u").forEach(u=>u.textContent=unit());
+ $("#h").value=S.h;$("#w").value=S.w;
+ fig(e);
+ const src=(S.ov.c||S.ov.w||S.ov.h)?"your input":"estimated";
+ $("#est").innerHTML=[["Chest or bust",e.c],["Waist",e.w],["Hips",e.hp],["Shoulders",e.sh],["Arm length",e.arm],["Inseam",e.ins],["Foot length",e.foot]].map(r=>`<div><span>${r[0]}</span><b>${fmt(r[1])}</b></div>`).join("")+`<div><span>Source</span><b>${src}</b></div>`;
+ $("#cards").innerHTML=Object.keys(G).map(k=>{
+  const r=calc(k,e),f=S.fits[k],lb=lab(k,e);
+  const tl=r.tol||2,lo=r.main-2*tl,hi=r.main+2*tl;
+  return `<div class="card${OPEN[k]?" open":""}" data-k="${k}"><div class="hd"><div><h3 class="gh">${ic(k)}${G[k].n}</h3><div class="fl">${f[0].toUpperCase()+f.slice(1)} fit${lb.Letter?", letter "+lb.Letter:""}</div></div><div class="tag">${S.reg==="KE"?"":S.reg+" "}${lb[S.reg]}</div></div>
+  <div class="gb" style="margin-top:10px">${r.rows.map(x=>`<div class="m"><span>${x[0]}</span><b>${fmt(x[1])}</b></div>`).join("")}</div>
+  <p class="note gb">${r.mainName}: aim for ${fmt(r.main-tl)} to ${fmt(r.main+tl)}. Under ${fmt(lo)} will feel tight or undersized. Over ${fmt(hi)} will drift oversized.${r.off?" Your numbers sit between sizes, so check the chart or ask a tailor to adjust.":""}</p></div>`}).join("");
+ $("#reg").value=S.reg;
+ $("#conv").innerHTML=`<div class="tw"><table><tr><th>Garment</th><th>Letter</th>${REG.map(r=>`<th>${r[1]}</th>`).join("")}</tr>${Object.keys(G).map(k=>{const q=lab(k,e);return `<tr><td>${G[k].n}</td><td>${q.Letter}</td>${REG.map(r=>`<td class="${r[0]===S.reg?"hl":""}">${q[r[0]]}</td>`).join("")}</tr>`}).join("")}</table></div><p class="note">These are the labels for the fit you chose, not only your body size, so a relaxed fit may show a size up. Japan and China or Korea sizes run smaller, and brands vary, so confirm with the store’s own chart. Australia and New Zealand mostly follow UK sizing.</p>`;
+ // check
+ chk(e);diary(e);
+ // tailor
+ const L=["MY FIT CARD",`Height ${S.imp?Math.floor(ti/12)+"'"+(ti%12)+'"':S.h+" cm"}, weight ${S.imp?Math.round(S.w*2.2046)+" lb":S.w+" kg"}, ${BUILD[S.build][0].toLowerCase()} build (${src})`,"",`Body: chest ${fmt(e.c)}, waist ${fmt(e.w)}, hips ${fmt(e.hp)}, shoulders ${fmt(e.sh)}, arm ${fmt(e.arm)}, inseam ${fmt(e.ins)}`,""];
+ Object.keys(G).forEach(k=>{const r=calc(k,e);L.push(`${G[k].n} (${S.fits[k]}): `+r.rows.map(x=>`${x[0].toLowerCase()} ${fmt(x[1])}`).join(", ")+`. Label: ${S.reg==="KE"?"":S.reg+" "}${lab(k,e)[S.reg]}`)});
+ const inch=v=>(Math.round(v/2.54*4)/4)+" in";
+ L.push("","In inches, for your fundi (tailor):",`Body: chest ${inch(e.c)}, waist ${inch(e.w)}, hips ${inch(e.hp)}, shoulders ${inch(e.sh)}, arm ${inch(e.arm)}, inseam ${inch(e.ins)}, foot ${inch(e.foot)}`);
+ Object.keys(G).forEach(k=>{if(k==="shoes")return;const r=calc(k,e);L.push(`${G[k].n} (${S.fits[k]}): `+r.rows.map(x=>`${x[0].toLowerCase()} ${inch(x[1])}`).join(", "))});
+ L.push("","Garment measurements are laid flat. Tolerance about 2 cm either way.");
+ $("#tailor").textContent=L.join("\n");
+ updateWelcome();renderPersonalDashboard();
+ save();
+}
+
+function wire(){
+ $("#nickname").addEventListener("input",e=>{S.nickname=e.target.value.slice(0,24);updateWelcome();save()});
+ $("#quickGarment").onchange=e=>{S.cg=e.target.value;$("#cg").value=S.cg;update()};
+ $("#quickCheck").onclick=()=>{S.cg=$("#quickGarment").value;S.ui="check";update();scrollTo({top:$("#check").getBoundingClientRect().top+scrollY-18,behavior:"smooth"})};
+ $("#savedFavorites").onclick=e=>{const b=e.target.closest("[data-load-favorite]");if(!b)return;S.cg=b.dataset.loadFavorite;S.ui="check";S.mode="fav";update();scrollTo({top:$("#check").getBoundingClientRect().top+scrollY-18,behavior:"smooth"})};
+ $("#sex").onclick=e=>{const v=e.target.dataset.v;if(v){S.sex=v;update()}};
+ $("#reg").onchange=e=>{S.reg=e.target.value;update()};
+ $("#units").onclick=e=>{const v=e.target.dataset.v;if(v!==undefined){S.imp=+v;sync();update()}};
+ $("#builds").onclick=e=>{const b=e.target.dataset.b;if(b){S.build=b;update()}};
+ $("#fits").onclick=e=>{const b=e.target.closest("[data-f]");if(b){S.fit=b.dataset.f;Object.keys(G).forEach(k=>S.fits[k]=S.fit);update()}};
+ $("#per").onchange=e=>{const g=e.target.dataset.g;if(g){S.fits[g]=e.target.value;update()}};
+ $("#h").oninput=e=>{S.h=+e.target.value;update()};
+ $("#w").oninput=e=>{S.w=+e.target.value;update()};
+ $("#cg").onchange=e=>{S.cg=e.target.value;update()};
+ $("#cf").onchange=e=>{S.fits[S.cg]=e.target.value;update()};
+ $("#cfb").onchange=e=>{S.fab=e.target.value;update()};
+ $("#mode").onclick=e=>{const v=e.target.dataset.v;if(v){S.ui=v;update();scrollTo(0,0)}};
+ $("#cin").oninput=update;
+ $("#cmode").onclick=e=>{const t=e.target;if(t.dataset.m){S.mode=t.dataset.m;update()}else if(t.id==="savefav"){const k=S.cg,o=S.refs[k]||{};document.querySelectorAll("#cin input").forEach(i=>{const v=parseFloat(i.value);if(v>0){o[i.id.slice(3)]=S.imp?v*2.54:v;i.value=""}});S.refs[k]=o;S.mode="fav";update()}};
+ [["#oc","c"],["#ow","w"],["#oh","h"],["#of","f"]].forEach(([id,k])=>$(id).oninput=e=>{const v=parseFloat(e.target.value);S.ov[k]=v>0?(S.imp?v*2.54:v):0;update()});
+ 
+ $("#copy").onclick=async()=>{const t=$("#tailor").textContent;try{await navigator.clipboard.writeText(t);$("#copy").textContent="Copied"}catch(e){const r=document.createRange();r.selectNodeContents($("#tailor"));const s=getSelection();s.removeAllRanges();s.addRange(r);$("#copy").textContent="Selected, press copy"}setTimeout(()=>$("#copy").textContent="Copy to clipboard",2000)};
+ $("#print").onclick=()=>print();
+ $("#logbtn").onclick=()=>{const k=S.cg,v={};document.querySelectorAll("#cin input").forEach(i=>{const x=parseFloat(i.value);if(x>0)v[i.id.slice(3)]=S.imp?x*2.54:x});
+  if(!Object.keys(v).length){$("#logmsg").textContent="Enter the item’s measurements in the check above first.";return}
+  S.log.push({k,name:$("#ln").value.trim().slice(0,40),v,r:+$("#lr1").value,lr:+$("#lr2").value});S.log=S.log.slice(-100);$("#ln").value="";document.querySelectorAll("#cin input").forEach(i=>i.value="");$("#logmsg").textContent="Saved. Your diary now shapes your targets.";update()};
+ $("#diary").onclick=e=>{const d=e.target.dataset.d;if(d!==undefined){S.log.splice(+d,1);update()}};
+ $("#bkc").onclick=async()=>{const t=JSON.stringify(S);$("#bk").value=t;try{await navigator.clipboard.writeText(t);$("#bkm").textContent="Copied. Paste it somewhere safe."}catch(e){$("#bk").select();$("#bkm").textContent="Select and copy the text above."}};
+ $("#bkr").onclick=()=>{try{const j=JSON.parse($("#bk").value);if(!j||typeof j!=="object"||!(j.log||[]).every(x=>x&&G[x.k]&&x.v&&typeof x.r==="number"))throw 0;S=Object.assign({},D,j,{fits:Object.assign({},D.fits,j.fits),ov:Object.assign({},D.ov,j.ov),refs:j.refs||{},log:j.log||[]});sync();update();$("#bkm").textContent="Restored."}catch(e){$("#bkm").textContent="That text isn’t a valid backup."}};
+ $("#pf").onchange=e=>{const f=e.target.files[0];if(!f)return;const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const c=$("#pc"),sc=Math.min(1,1400/im.width);c.width=im.width*sc;c.height=im.height*sc;Object.assign(PH,{img:im,cal:[],s:0,done:{},cur:null,pts:[],k:S.cg+S.imp});c.style.display="block";phDraw();phUI()};im.src=fr.result};fr.readAsDataURL(f)};
+ $("#pm").onclick=e=>{const p=e.target.dataset.p;if(!p)return;if(p==="reset"){Object.assign(PH,{cal:[],s:0,done:{},cur:null,pts:[]})}else{PH.cur=p;PH.pts=[]}phDraw();phUI()};
+ $("#pc").onclick=ev=>{if(!PH.img)return;const c=$("#pc"),r=c.getBoundingClientRect(),x=(ev.clientX-r.left)*c.width/r.width,y=(ev.clientY-r.top)*c.height/r.height;
+  if(PH.cal.length<2){PH.cal.push([x,y]);if(PH.cal.length===2)PH.s=+$("#pref").value/dist(PH.cal)}
+  else if(PH.cur){PH.pts.push([x,y]);if(PH.pts.length===2){const cm=dist(PH.pts)*PH.s,inp=$("#ci_"+PH.cur);PH.done[PH.cur]=PH.pts.slice();PH.pts=[];PH.cur=null;if(inp){inp.value=S.imp?(cm/2.54).toFixed(1):(Math.round(cm*2)/2);inp.dispatchEvent(new Event("input",{bubbles:true}))}}}
+  phDraw();phUI()};
+}
+function sync(){
+ [["#oc","c"],["#ow","w"],["#oh","h"],["#of","f"]].forEach(([id,k])=>$(id).value=S.ov[k]?(S.imp?(S.ov[k]/2.54).toFixed(1):Math.round(S.ov[k]*2)/2):"");
+ $("#cin").dataset.k="";
+}
+function solve(A,b){const n=b.length;for(let i=0;i<n;i++){let m=i;for(let r=i+1;r<n;r++)if(Math.abs(A[r][i])>Math.abs(A[m][i]))m=r;[A[i],A[m]]=[A[m],A[i]];[b[i],b[m]]=[b[m],b[i]];for(let r=i+1;r<n;r++){const f=A[r][i]/A[i][i];for(let c=i;c<n;c++)A[r][c]-=f*A[i][c];b[r]-=f*b[i]}}
+ const x=Array(n).fill(0);for(let i=n-1;i>=0;i--){let s=b[i];for(let c=i+1;c<n;c++)s-=A[i][c]*x[c];x[i]=s/A[i][i]}return x}
+function phH(){if(PH.cal.length<4)return null;const[L,W]=$("#pref").value.split(",").map(Number),T=[[0,0],[L,0],[L,W],[0,W]],A=[],b=[];
+ PH.cal.forEach((p,i)=>{const[x,y]=p,[u,v]=T[i];A.push([x,y,1,0,0,0,-u*x,-u*y]);b.push(u);A.push([0,0,0,x,y,1,-v*x,-v*y]);b.push(v)});
+ const h=solve(A,b);return p=>{const w=h[6]*p[0]+h[7]*p[1]+1;return[(h[0]*p[0]+h[1]*p[1]+h[2])/w,(h[3]*p[0]+h[4]*p[1]+h[5])/w]}}
+function phFill(id){const d=PH.done[id],inp=$("#ci_"+id),f=phH();if(!d||!inp||!f)return;const a=f(d[0]),b=f(d[1]),cm=Math.hypot(a[0]-b[0],a[1]-b[1]);inp.value=S.imp?(cm/2.54).toFixed(1):(Math.round(cm*2)/2);inp.dispatchEvent(new Event("input",{bubbles:true}))}
+function phDraw(){if(!PH.img)return;const c=$("#pc"),x=c.getContext("2d"),lw=Math.max(3,c.width/220);x.drawImage(PH.img,0,0,c.width,c.height);
+ const ln=(a,b,col)=>{x.strokeStyle=col;x.lineWidth=lw;x.beginPath();x.moveTo(a[0],a[1]);x.lineTo(b[0],b[1]);x.stroke()},dot=(p,col,t)=>{x.fillStyle=col;x.beginPath();x.arc(p[0],p[1],lw*2.2,0,7);x.fill();if(t){x.font="bold "+lw*4+"px sans-serif";x.lineWidth=lw;x.strokeStyle="#000";x.strokeText(t,p[0]+lw*3,p[1]-lw*3);x.fillStyle="#fff";x.fillText(t,p[0]+lw*3,p[1]-lw*3)}};
+ PH.cal.forEach((p,i)=>{if(i)ln(PH.cal[i-1],p,"#ff3b30")});if(PH.cal.length===4)ln(PH.cal[3],PH.cal[0],"#ff3b30");PH.cal.forEach((p,i)=>dot(p,"#ff3b30",i+1));
+ Object.values(PH.done).forEach(d=>{ln(d[0],d[1],"#ffd23f");dot(d[0],"#ffd23f");dot(d[1],"#ffd23f")});PH.pts.forEach(p=>dot(p,"#ffd23f"))}
+function phUI(){const el=$("#pm");if(!PH.img){el.innerHTML="";return}
+ if(PH.k!==S.cg+S.imp){PH.k=S.cg+S.imp;PH.done={};PH.order=[];PH.cur=null;PH.pts=[];phDraw()}
+ const n=PH.cal.length,nm=["first corner (the start of a long edge)","second corner (along the long edge)","third corner (around the reference)","fourth corner"];
+ el.innerHTML=(n<4?`<div class="v warn">Tap the ${nm[n]}. Corner ${n+1} of 4.</div>`:`<div class="chips">${IDS.map(id=>`<button class="chip" data-p="${id}" aria-pressed="${PH.cur===id}">${MET[id][0].split(",")[0]}${PH.done[id]?" \u2713":""}</button>`).join("")}</div><p class="hint">${PH.cur?"Tap the two ends of the "+MET[PH.cur][0].split(",")[0].toLowerCase()+". Drag any point to adjust.":"Pick a measurement, then tap its two ends. Drag any point to adjust."}</p>`)+`<div class="chips" style="margin-top:8px"><button class="chip" data-p="undo">Undo</button><button class="chip" data-p="reset">Redo corners</button></div>`}
+function phInit(){const c=$("#pc");c.onclick=null;PH.order=[];PH.drag=null;
+ const pos=ev=>{const r=c.getBoundingClientRect();return[(ev.clientX-r.left)*c.width/r.width,(ev.clientY-r.top)*c.height/r.height]};
+ const hit=p=>{let best=null,bd=c.width/22;const sc=(arr,tag,id)=>arr.forEach((q,j)=>{const d=Math.hypot(q[0]-p[0],q[1]-p[1]);if(d<bd){bd=d;best={tag,id,idx:j}}});sc(PH.cal,"cal");Object.keys(PH.done).forEach(id=>sc(PH.done[id],"done",id));return best};
+ c.onpointerdown=ev=>{if(!PH.img)return;const p=pos(ev),h=hit(p);if(h){PH.drag=h;c.setPointerCapture(ev.pointerId);ev.preventDefault();return}
+  if(PH.cal.length<4)PH.cal.push(p);
+  else if(PH.cur){PH.pts.push(p);if(PH.pts.length===2){const id=PH.cur;PH.done[id]=PH.pts.slice();PH.order.push(id);PH.pts=[];PH.cur=null;phFill(id)}}
+  phDraw();phUI()};
+ c.onpointermove=ev=>{const h=PH.drag;if(!h)return;const p=pos(ev);if(h.tag==="cal")PH.cal[h.idx]=p;else PH.done[h.id][h.idx]=p;phDraw()};
+ c.onpointerup=()=>{const h=PH.drag;if(!h)return;PH.drag=null;if(h.tag==="done")phFill(h.id);else Object.keys(PH.done).forEach(phFill);phDraw();phUI()};
+ $("#pref").onchange=()=>Object.keys(PH.done).forEach(phFill);
+ $("#pm").onclick=e=>{const p=e.target.dataset.p;if(!p)return;
+  if(p==="reset"){Object.assign(PH,{cal:[],done:{},order:[],cur:null,pts:[]})}
+  else if(p==="undo"){if(PH.pts.length)PH.pts.pop();else if(PH.cur)PH.cur=null;else{const id=PH.order.filter(i=>PH.done[i]).pop();if(id){delete PH.done[id];PH.order=PH.order.filter(i=>i!==id)}else PH.cal.pop()}}
+  else{PH.cur=p;PH.pts=[]}
+  phDraw();phUI()}}
+const OPEN={};
+const ICONS={tee:"M8 3L3 6L5 10L8 9V21H16V9L19 10L21 6L16 3Q12 6 8 3Z",shirt:"M8 3L3 6l2 4 3-1v12h8V9l3 1 2-4-5-3-4 4-4-4zM12 7v14",hoodie:"M8 4L3 7l1 5 3-1v10h10V11l3 1 1-5-5-3q-4 6-8 0zM10 15h4",jacket:"M8 3L3 6l1 14h5V10l3 4 3-4v10h5L21 6l-5-3-4 5-4-5z",pants:"M7 3h10l1 18h-5l-1-12-1 12H6z",shorts:"M7 4h10l2 11h-6l-1-6-1 6H5z",skirt:"M9 4h6l4 16H5z",dress:"M9 3l1 5-3 12h10L14 8l1-5M10 8h4",shoes:"M3 14v4h17q1-3-3-4l-5-2-3-3-3 2z"};
+const ic=k=>`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[k]}"/></svg>`;
+(()=>{let h="";for(let i=0;i<70;i++)h+=`<span style="left:${i*32+5}px">${i}</span>`;$("#tape").innerHTML=h})();
+const _lab0=lab;lab=function(k,e){const o=_lab0(k,e);o.KE=(String(o.UK)===String(o.US)?"UK/US "+o.UK:"UK "+o.UK+", US "+o.US)+", EU "+o.EU;return o};
+$("#cards").onclick=e=>{const c=e.target.closest(".card");if(c&&c.dataset.k){OPEN[c.dataset.k]=!OPEN[c.dataset.k];c.classList.toggle("open")}};
+$("#cmode").addEventListener("toggle",e=>{OPEN.cmp=e.target.open},true);
+document.addEventListener("click",e=>{const g=e.target.closest("[data-go]"),a=e.target.closest('a[href="#check"]');if(g||a){e.preventDefault();S.ui=g?g.dataset.go:"check";update();scrollTo(0,0)}});
+build();wire();phInit();sync();update();
+</script>
+</body>
+</html>
